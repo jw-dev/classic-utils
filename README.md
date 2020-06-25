@@ -5,8 +5,12 @@ This script aims to provide a lot of information to the player while playing, wi
 
 ## Features
 * Full support for TR2 (PAL version).
+* Movie info (for tool-asssited speedruns).
 * Display Lara's current information: position, speed, angles, etc.
+* Room info - where is it, how tall is it?
+* All active enemy information, including health and positions.
 * Display a full mini-map of the current room. 
+* Interrogate all triggers in the current room and see what happens.
 
 ## Planned
 * Support for TR1 and TR3. 
