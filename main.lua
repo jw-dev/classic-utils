@@ -56,13 +56,11 @@ local data = require 'game'
 local all_names = require 'names'
 
 if data [hash] == nil then 
-  error ( string.format ( 'Game unsupported! (hash 0x%s)', hash ) )
+  error ( string.format ( '!! Game unsupported !! (hash 0x%s)', hash ) )
 end 
 
 local game = data [hash]
 local names = all_names[game["name"]]
-
-for k,v in pairs(names) do print(k,v) end
 
 local ram = game.ram -- memory addresses
 local SECTOR_PIXELS = game.sector_pixels
