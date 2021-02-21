@@ -51,16 +51,18 @@ local s32 = memory.read_s32_le
 -- GAME SPECIFIC --
 -------------------
 -- These are variables used for the script that vary based on the game being played.
-local game
-local names
 local hash = gameinfo.getromhash()
+local data = require 'game' 
+local all_names = require 'names'
 
-if hash == '02EEB617' then
-  game = require 'tr2-pal'
-  names = require 'tr2-names'
-else
-  error('Game unsupported')
-end
+if data [hash] == nil then 
+  error ( string.format ( 'Game unsupported! (hash 0x%s)', hash ) )
+end 
+
+local game = data [hash]
+local names = all_names[game["name"]]
+
+for k,v in pairs(names) do print(k,v) end
 
 local ram = game.ram -- memory addresses
 local SECTOR_PIXELS = game.sector_pixels
