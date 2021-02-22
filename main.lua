@@ -552,15 +552,14 @@ local draw_room_info = function(room)
   local data = rooms[room]
 
   draw(DRAW_ROOM_INFO_X, DRAW_ROOM_INFO_Y,
-    "Room #%d %dx %d^ %dv %dz %dx%d   0x%X",
+    "Room #%d %dx %d^ %dv %dz %dx%d",
       room,
       data.x / SECTOR_PIXELS,
       data.maxceiling,
       data.minfloor,
       data.z / SECTOR_PIXELS,
       data.x_size,
-      data.y_size,
-      data.sector_ptr )
+      data.y_size )
 end
 
 -- draws an item on the minimap

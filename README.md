@@ -3,8 +3,11 @@ A utility script for classic Tomb Raider games when running in emulator, written
 
 This script aims to provide a lot of information to the player while playing, without being too obtrusive to the experience; this is not for casual players, however, and should not be used in speedruns except for route finding or glitch hunting (since this would be considered cheating).
 
+## Game support 
+* Tomb Raider II (PAL) fully supported.
+* Tomb Raider I (USA) (v1.6) experimental support.
+
 ## Features
-* Full support for TR2 (PAL version).
 * Movie info (for tool-asssited speedruns).
 * Display Lara's current information: position, speed, angles, etc.
 * Room info - where is it, how tall is it?
@@ -18,9 +21,13 @@ This script aims to provide a lot of information to the player while playing, wi
 * Various cheats/config options - wireframe, flight mode, finish level, etc.
 
 ## Detail
-![screenshot](images/great-wall.png "The Great Wall")
+<a href="images/great-wall.png"><img src="images/great-wall.png" height="70%" width="70%"></a>
+<a href="images/tomb1.png"><img src="images/tomb1.png" height="70%" width="70%"></a>
 
 ### Left Panel
+
+<img src="images/left-panel.png">
+
 1. INACTIVE 
     * This is the status of the current movie. INACTIVE means there is no movie; there is also RECORDING or PLAYING. Only useful for Tool-Assisted speedruns.
 2. 21277 / 0 (0)
@@ -36,7 +43,10 @@ This script aims to provide a lot of information to the player while playing, wi
 7. 0, 0
     * Not very useful for display purposes here, but this is Lara's movement speed along XZ followed by Lara's vertical (jump) speed.
 
-#### Room info
+#### Room info and minimap
+
+<img src="images/room.png">
+
 * The next line is the current room info condensed onto one line. 
     * Room #62 - the current room number.
     * 66x - the X position of the room.
@@ -45,7 +55,7 @@ This script aims to provide a lot of information to the player while playing, wi
     * 68z - the Z position of the room.
     * 12x10 - the width and height of the room. (Width first.)
 
-#### Minimap
+##### Minimap
 * The small image of tiles you see is a "minimap" of the current room Lara is standing in.
     * Light blue tiles are regular (floor) tiles.
     * Black tiles are door, or portal, tiles. They lead to another room.
@@ -54,14 +64,16 @@ This script aims to provide a lot of information to the player while playing, wi
 * You can interrogate the tiles in some cases.
     * For pink tiles (triggers), hover over it to see trigger details. Here we can see that the trigger activates a T-Rex:
 
-        ![screenshot](images/trigger-info.PNG "Trigger info")
+        ![screenshot](images/trigger-info.png "Trigger info")
     * For black tiles (portals), hover over it to see portal details. Here we can see that portal leads to room 39:
 
-        ![screenshot](images/door-info.PNG "Trigger info")
+        ![screenshot](images/door-info.png "Trigger info")
 * Furthermore, the minimap will show all enemy positions (red arrowhead) and Lara's position in the room (purple arrowhead) in real time.
 
 
 ### Right Panel
+<img src="images/right-panel.png"> 
+
 * Here, we display all enemy details for every active entity that has been triggered and is not currently dead.
 * The information string details (in order): item ID (in level), Short Name, Health, X Pos., Y Pos., Z Pos..
 
