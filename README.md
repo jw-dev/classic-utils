@@ -64,10 +64,10 @@ This script aims to provide a lot of information to the player while playing, wi
 * You can interrogate the tiles in some cases.
     * For pink tiles (triggers), hover over it to see trigger details. Here we can see that the trigger activates a T-Rex:
 
-        <img src="images/trigger-info.png"> 
+        <img src="images/trigger-info.PNG"> 
     * For black tiles (portals), hover over it to see portal details. Here we can see that portal leads to room 39:
 
-        <img src="images/door-info.png"> 
+        <img src="images/door-info.PNG"> 
 * Furthermore, the minimap will show all enemy positions (red arrowhead) and Lara's position in the room (purple arrowhead) in real time.
 
 
