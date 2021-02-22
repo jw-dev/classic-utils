@@ -60,17 +60,19 @@ if data [hash] == nil then
 end 
 
 local game = data [hash]
-local names = all_names[game["name"]]
+local names = all_names[game.name]
 
 local ram = game.ram -- memory addresses
 local SECTOR_PIXELS = game.sector_pixels
 local STRUCT_LEN_SECTOR = game.struct_len_sector -- how many bytes each sector data is
 local STRUCT_LEN_ROOM = game.struct_len_room -- how many bytes each room is
 local STRUCT_LEN_ENTITY = game.struct_len_entity -- how many bytes each entity is
+local ENTITY_POS_OFFSET = game.entity_pos_offset 
 
 ---------------
 -- CONSTANTS --
 ---------------
+local SECTOR_PIXELS = 1024 -- how many pixels each sector in a physical TR level has
 local BIT_FLOOR_DATA_DOOR = 0x1 -- floor data function for portal
 local BIT_FLOOR_DATA_FLOOR_SLANT = 0x2 -- floor data function for floor slant
 local BIT_FLOOR_DATA_CEILING_SLANT = 0x3 -- floor data function for ceiling slant
@@ -132,9 +134,9 @@ local end_of_level
 local do_refresh = function()
   timer = u32(ram.timer)
   room_current = u32(ram.room_current)
-  room_array_pointer = u32(ram.room_array_pointer)
-  floor_array_pointer = u32(ram.floor_array_pointer)
-  item_array_pointer = u32(ram.item_array_pointer)
+  room_array_pointer = ram.room_list or u32(ram.room_array_pointer)
+  floor_array_pointer = bit.band( u32(ram.floor_array_pointer), 0xFFFFFF )
+  item_array_pointer = bit.band( u32(ram.item_array_pointer), 0xFFFFFF )
   lara_id = u16(ram.lara_id)
   next_active = u16(ram.next_active)
   end_of_level = u32(ram.end_of_level)
@@ -261,6 +263,7 @@ end
 -- returns the entire ITEM_INFO structure for a given item ID
 local item_get_data = function(item_id)
   local base = item_get_address(item_id)
+  
   return {
     addr = base + 32,
     -- floor = s32(base),
@@ -285,11 +288,11 @@ local item_get_data = function(item_id)
     -- shadeB = s16(base + 44), 
     -- carried_item = s16(base + 46),
     -- data = u32(base + 48),
-    x_pos = s32(base + 52),
-    y_pos = s32(base + 56),
-    z_pos = s32(base + 60),
+    x_pos = s32(base + ENTITY_POS_OFFSET),
+    y_pos = s32(base + ENTITY_POS_OFFSET + 4),
+    z_pos = s32(base + ENTITY_POS_OFFSET + 8),
     -- x_rot = s16(base + 64),
-    y_rot = u16(base + 66),
+    y_rot = u16(base + ENTITY_POS_OFFSET + 14),
     -- z_rot = s16(base + 68),
     -- flags = u16(base + 70),
     -- flags2 = u16(base + 72),
@@ -505,7 +508,7 @@ end
 
 local room_get_data = function(id)
   local base = room_get_address(id)
-  local sector_ptr = u32(base + 8)
+  local sector_ptr = bit.band ( u32(base + 8), 0xFFFFFF )
   local depth = s16(base + 40)
   local width = s16(base + 42)
   local sectors = sector_get_data(sector_ptr, width * depth)
@@ -549,14 +552,15 @@ local draw_room_info = function(room)
   local data = rooms[room]
 
   draw(DRAW_ROOM_INFO_X, DRAW_ROOM_INFO_Y,
-    "Room #%d %dx %d^ %dv %dz %dx%d",
+    "Room #%d %dx %d^ %dv %dz %dx%d   0x%X",
       room,
       data.x / SECTOR_PIXELS,
       data.maxceiling,
       data.minfloor,
       data.z / SECTOR_PIXELS,
       data.x_size,
-      data.y_size)
+      data.y_size,
+      data.sector_ptr )
 end
 
 -- draws an item on the minimap
