@@ -125,14 +125,14 @@ local rooms = {}
 ---------------
 -- VARIABLES --
 ---------------
-local timer
+local level_timer
 local room_current
 local room_array_pointer, floor_array_pointer, item_array_pointer
 local lara_id
 local next_active
 local end_of_level
 local do_refresh = function()
-  timer = u32(ram.timer)
+  level_timer = u32(ram.timer)
   room_current = u32(ram.room_current)
   room_array_pointer = ram.room_list or u32(ram.room_array_pointer)
   floor_array_pointer = bit.band( u32(ram.floor_array_pointer), 0xFFFFFF )
@@ -172,7 +172,7 @@ end
 
 -- Returns the raw number of frames of the current level
 local frames = function()
-  return math.max(timer - 2, 0)
+  return math.max(level_timer - 2, 0)
 end
 
 -- Returns a table of the number of hours, minutes, seconds and milliseconds for the number of frames provided
@@ -668,10 +668,16 @@ local STATE_LEVEL = 2
 local STATE_LEVEL_COMPLETE = 3
 local state = STATE_IDLE
 
+-- hacky function to make sure the script does not run outside of the game 
+-- fix for TR1 (USA)
+local should_run = function () 
+  return lara_id >= 0 and lara_id <= 255 and level_timer > 0 and end_of_level == 0
+end 
+
 -- state handler for idle, this could be out of level or in inventory etc
 local do_state_idle = function()
   -- do nothing but check if the level has started again
-  if end_of_level == 0 then
+  if should_run() then
     state = STATE_LEVEL
   end
 end
